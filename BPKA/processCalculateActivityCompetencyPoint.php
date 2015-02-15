@@ -5,8 +5,11 @@ try {
    
 
 
-$Query = "DELETE FROM StudentCompetency WHERE Activity = ".$_GET['Pid']."
-			INSERT INTO StudentCompetency (Student, Activity, Competency, Point, Lockfield)
+$Query = "DELETE FROM StudentCompetency WHERE Activity = ".$_GET['Pid'];
+		
+		$Conn->query($Query);
+        
+$Query =	"INSERT INTO StudentCompetency (Student, Activity, Competency, Point, Lockfield)
 			SELECT ActivityStudent.Student, Activity.Id, Competency.Id, Competency.Point, 0
 			FROM Activity
 			INNER JOIN ActivityStudent ON ActivityStudent.Activity = Activity.Id
@@ -19,7 +22,6 @@ $Query = "DELETE FROM StudentCompetency WHERE Activity = ".$_GET['Pid']."
 			) AS Competency ON Competency.ParticipantType = ActivityStudent.ParticipantType AND Competency.Period = Activity.Period
 			WHERE Activity.Id = ".$_GET['Pid']." AND ActivityStudent.Attended = 1
 		";
-		
 		$Conn->query($Query);
 		$Conn->Commit();
 	//header('location:StudentCompetencyByActivity.php?Activity='.$_GET['Pid']);
